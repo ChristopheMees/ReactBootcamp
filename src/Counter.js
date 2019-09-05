@@ -15,6 +15,11 @@ export default class Counter extends React.Component
         this.state = {count: 0};
     }
 
+    shouldComponentUpdate(newProps, newState)
+    {
+        return this.state.count !== newState.count
+    }
+
     onClick()
     {
         const { amount, click } = this.props
@@ -24,6 +29,7 @@ export default class Counter extends React.Component
 
     render()
     {
+        console.log('Rendering ', this.props.id)
         return  <div>
                     <CurrenctCount count={this.state.count}/>
                     <CounterBtn click = {() => this.onClick()}/>
