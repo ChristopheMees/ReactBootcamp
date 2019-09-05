@@ -3,7 +3,14 @@ import React from 'react'
 function Warning({ temperature })
 {
     if(temperature < 50)
+    {
         return <h3 style={{color: "rgb(200,100,0"}}>Core temperature is too low!</h3>
+    }
+
+    if(temperature > 100)
+    {
+        return <h3 style={{color: "rgb(255,0,0"}}>Core temperature is too High!</h3>
+    }
 
     return null;
 }
