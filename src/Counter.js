@@ -1,9 +1,6 @@
 import React from 'react'
 
-function CurrenctCount(props)
-{
-    return <p>Current count: {props.count}</p>
-}
+import CurrenctCount from './CurrenctCount'
 
 function CounterBtn(props)
 {
@@ -18,11 +15,18 @@ export default class Counter extends React.Component
         this.state = {count: 0};
     }
 
+    onClick()
+    {
+        const { amount, click } = this.props
+        this.setState({count: this.state.count + amount})
+        click(amount)
+    }
+
     render()
     {
         return  <div>
                     <CurrenctCount count={this.state.count}/>
-                    <CounterBtn click = {() => this.setState({count: this.state.count + 1})}/>
+                    <CounterBtn click = {() => this.onClick()}/>
                 </div>
     }
 }

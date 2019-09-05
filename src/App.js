@@ -1,9 +1,12 @@
 import React from 'react'
-import MainCounter from './MainCounter'
+
+import Clock from './Clock'
+import Reactor from './Reactor'
 
 export default function App()
 {
   return  <div>
-            <MainCounter/>
+            <Clock />
+            <Reactor/>
           </div>
 }
