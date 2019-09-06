@@ -1,6 +1,21 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {createAction} from 'redux-starter-kit'
 
-export const loginContext = React.createContext("")
+// Actions
+const authenticate = createAction('AUTHENTICATE')
+const updateUsername = createAction('UPDATE_USERNAME')
+
+// Reducer
+export function loginReducer(state = {authenticated: false}, action)
+{
+    switch(action.type)
+    {
+        case 'AUTHENTICATE': return ({...state, authenticated: true})
+        case 'UPDATE_USERNAME': return ({...state, username: action.payload})
+        default: return state
+    }
+}
 
 function LoginForm({ usernameUpdate, logIn })
 {
@@ -15,25 +30,20 @@ function LoginForm({ usernameUpdate, logIn })
             </form>
 }
 
-export default class LoginComponent extends React.Component
+class LoginComponent extends React.Component
 {
-    constructor(props)
-    {
-        super(props)
-        this.state = {authenticated: false, username: null}
-    }
-
     render()
     {
-        if(this.state.authenticated)
-            return  <div>
-                        <loginContext.Provider value={this.state.username} >
-                            { this.props.children }
-                        </loginContext.Provider>
-                    </div>
+        if(this.props.authenticated)
+            return  <> { this.props.children } </>
 
         return  <LoginForm 
-                    usernameUpdate={(username) => this.setState({username})} 
-                    logIn={() => this.setState({authenticated: true})}/>
+                    usernameUpdate={(username) => this.props.updateUsername(username)} 
+                    logIn={() => this.props.authenticate()}/>
     }
 }
+
+export default connect(
+    state => ({authenticated: state.authenticated}),
+    {authenticate, updateUsername}
+)(LoginComponent)
