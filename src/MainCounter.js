@@ -20,7 +20,7 @@ export default class MainCounter extends React.Component
     {
         const countersArr = this.props.counters;
         return  <div>
-                    { countersArr.map((amount) => <Counter id={amount} key={amount} amount={amount} click={this.onClick()}/>) }
+                    { countersArr.map((amount, idx) => <Counter id={'counter' + idx} key={amount} amount={amount} click={this.onClick()}/>) }
                     <br/>
                     <CurrenctCount count={this.state.count}/>
                 </div>

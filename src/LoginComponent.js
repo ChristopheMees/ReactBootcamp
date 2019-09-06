@@ -1,21 +1,42 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {createAction} from 'redux-starter-kit'
+import {createSlice} from 'redux-starter-kit'
 
 // Actions
-const authenticate = createAction('AUTHENTICATE')
-const updateUsername = createAction('UPDATE_USERNAME')
+// const authenticate = createAction('AUTHENTICATE')
+// const updateUsername = createAction('UPDATE_USERNAME')
+
 
 // Reducer
-export function loginReducer(state = {authenticated: false}, action)
-{
-    switch(action.type)
+// export function loginReducer(state = {authenticated: false}, action)
+// {
+//     switch(action.type)
+//     {
+//         case 'AUTHENTICATE': return ({...state, authenticated: true})
+//         case 'UPDATE_USERNAME': return ({...state, username: action.payload})
+//         default: return state
+//     }
+// }
+
+// export const loginReducer = createReducer(
+//     {authenticated: false},
+//     {
+//         [authenticate]: state => ({...state, authenticated: true}),
+//         [updateUsername]: (state, action) => ({...state, username: action.payload})
+//     }
+// )
+
+// Slice
+export const login = createSlice(
     {
-        case 'AUTHENTICATE': return ({...state, authenticated: true})
-        case 'UPDATE_USERNAME': return ({...state, username: action.payload})
-        default: return state
+        initialState: {authenticated: false},
+        reducers:
+        {
+            authenticate: state => ({...state, authenticated: true}),
+            updateUsername: (state, action) => ({...state, username: action.payload})
+        }
     }
-}
+)
 
 function LoginForm({ usernameUpdate, logIn })
 {
@@ -30,20 +51,17 @@ function LoginForm({ usernameUpdate, logIn })
             </form>
 }
 
-class LoginComponent extends React.Component
+function LoginComponent({authenticated, children, authenticate, updateUsername})
 {
-    render()
-    {
-        if(this.props.authenticated)
-            return  <> { this.props.children } </>
+    if(authenticated)
+        return  <> { children } </>
 
-        return  <LoginForm 
-                    usernameUpdate={(username) => this.props.updateUsername(username)} 
-                    logIn={() => this.props.authenticate()}/>
-    }
+    return  <LoginForm 
+                usernameUpdate={(username) => updateUsername(username)} 
+                logIn={() => authenticate()}/>
 }
 
 export default connect(
-    state => ({authenticated: state.authenticated}),
-    {authenticate, updateUsername}
+    state => ({authenticated: state.login.authenticated}),
+    {authenticate: login.actions.authenticate, updateUsername: login.actions.updateUsername}
 )(LoginComponent)

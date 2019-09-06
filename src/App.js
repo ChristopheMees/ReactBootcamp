@@ -1,22 +1,26 @@
 import React, { Suspense } from 'react'
 import {Provider} from 'react-redux'
-import {configureStore} from 'redux-starter-kit'
+import {configureStore, combineReducers, getDefaultMiddleware} from 'redux-starter-kit'
+import {createLogger} from 'redux-logger'
 
 import Clock from './Clock'
-import LoginComponent, { loginReducer } from './LoginComponent'
+import LoginComponent, { login } from './LoginComponent'
 import ErrorBoundary from './ErrorBoundary'
+import Welcome from './Welcome'
+import {counter} from './Counter'
 
 const MainCounter = React.lazy(() => import('./MainCounter'))
 
-class Welcome extends React.Component
-{
-  render()
-  {
-    return <h2>Welcome test</h2>
-  }
-}
+const rootReducer = combineReducers({
+  login: login.reducer,
+  counter: counter.reducer
+})
 
-const store = configureStore({reducer: loginReducer})
+const store = configureStore(
+  {
+    reducer: rootReducer,
+    middleware: [...getDefaultMiddleware(), createLogger()]
+  })
 
 export default function App()
 {
