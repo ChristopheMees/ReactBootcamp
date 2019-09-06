@@ -7,7 +7,9 @@ import Clock from './Clock'
 import LoginComponent, { login } from './LoginComponent'
 import ErrorBoundary from './ErrorBoundary'
 import Welcome from './Welcome'
-import {counter} from './Counter'
+import {counter} from './MainCounter'
+
+import Requirements from './Requirement'
 
 const MainCounter = React.lazy(() => import('./MainCounter'))
 
@@ -25,16 +27,6 @@ const store = configureStore(
 export default function App()
 {
   return  <>
-            <Provider store={store}>
-              <ErrorBoundary>
-                <Clock />
-                <Suspense fallback={<div>Waiting on some code...</div>}>
-                  <LoginComponent>
-                    <Welcome/>
-                    <MainCounter counters={[2,4,8,16,32]}/>
-                  </LoginComponent>
-                </Suspense>
-              </ErrorBoundary>
-            </Provider>
+            <Requirements/>
           </>
 }

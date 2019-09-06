@@ -11,7 +11,7 @@ export default function Requirements()
                     <li>Filter TODO list on all/unfinished</li>
                     <li>Update existing TODO</li>
                     <li>Delete TODO</li>
-                    <li>useState hook where possible</li>
+                    <li>NO REACT COMPONENT STATE</li>
                     <li>no unnecessary rerenders</li>
                     <li>(optional) Integrate TODO boot app</li>
                 </ul>
